@@ -4,5 +4,107 @@
         <title>
             Te amo
         </title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                position: relative;
+                background-image: url(https://wallpapers.com/images/featured/green-leaves-background-39hzfg9nvuarivt1.jpg);
+                height: 100vh;
+                width: 100vw;
+                display: flex;
+                object-fit: cover;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .floating-image {
+                position: absolute;
+                height: auto;
+                animation: rotate linear infinite;
+            }
+
+            @keyframes rotate {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            .center-content {
+                width: 200px;
+                height: 200px;
+                background-color: white;
+                border-radius: 10px;
+                text-align: center;
+                line-height: 200px;
+                font-size: 20px;
+                font-weight: bold;
+                position: relative;
+                z-index: 10;
+            }
+        </style>
     </head>
+    <body>
+        <div class="center-content">
+
+        </div>
+    </body>
+    <script>
+        function createDistributedImages(imagePaths) {
+            const numImages = 108; // Set a fixed number or randomize if needed
+            const rows = 9; // Divide viewport into 4 rows
+            const cols = 12; // Divide viewport into 3 columns
+            const grid = [];
+
+            // Assign a random image to each column
+            const columnImages = Array.from({ length: cols }, (l, index) => 
+                {
+                    let image = imagePaths[1]
+                    if(index > 2 && index < 9) image = imagePaths[2]
+                    if(index == 2 || index == 9) image = imagePaths[0]
+
+                    return image
+                }
+            );
+
+            // Create a grid of evenly spaced positions
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid.push({
+                        top: (i / rows) * 100 + Math.random() * 5 + "vh",
+                        left: (j / cols) * 100 + Math.random() * 5 + "vw",
+                        image: columnImages[j] // Assign the column's image
+                    });
+                }
+            }
+
+            // Shuffle positions randomly
+            grid.sort(() => Math.random() - 0.5);
+
+            for (let i = 0; i < numImages; i++) {
+                const img = document.createElement("img");
+                img.src = grid[i].image;
+                img.classList.add("floating-image");
+
+                // Random size between 50px and 150px
+                const size = Math.random() * 100 + 50;
+                img.style.width = `${size}px`;
+                img.style.height = `${size}px`;
+
+                // Assign evenly distributed position
+                img.style.top = grid[i].top;
+                img.style.left = grid[i].left;
+
+                // Random animation duration (5-15 seconds)
+                img.style.animationDuration = `${Math.random() * 10 + 5}s`;
+
+                document.body.appendChild(img);
+            }
+        }
+        let paths = ['https://static.vecteezy.com/system/resources/previews/010/793/930/non_2x/pink-gerbera-flower-isolated-with-clipping-path-free-png.png', 'https://static.vecteezy.com/system/resources/thumbnails/054/889/116/small/single-blue-hydrangea-bloom-on-transparent-background-png.png', 'https://static.vecteezy.com/system/resources/previews/014/635/146/non_2x/dahlia-flower-transparent-free-png.png']
+
+        window.onload = createDistributedImages(paths)
+    </script>
 </html>
