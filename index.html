@@ -4,7 +4,16 @@
         <title>
             Te amo
         </title>
+        <link href="https://fonts.cdnfonts.com/css/cute" rel="stylesheet">
         <style>
+            * {
+                cursor: default;
+                user-select: none;
+            }
+            img{
+                -webkit-user-drag: none;
+                user-drag: none;
+            }
             body {
                 margin: 0;
                 overflow: hidden;
@@ -12,7 +21,6 @@
                 background-image: url(https://wallpapers.com/images/featured/green-leaves-background-39hzfg9nvuarivt1.jpg);
                 height: 100vh;
                 width: 100vw;
-                display: flex;
                 object-fit: cover;
                 justify-content: center;
                 align-items: center;
@@ -32,23 +40,70 @@
                     transform: rotate(360deg);
                 }
             }
+
+            .pulsating-image {
+                position: absolute;
+                animation: pulsate 1.5s ease-out infinite;
+                pointer-events: none;
+                transition: transform 0.3s ease-in-out;
+                z-index: 2;
+            }
+
+            @keyframes pulsate {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.2);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+
             .center-content {
-                width: 200px;
-                height: 200px;
-                background-color: white;
-                border-radius: 10px;
                 text-align: center;
-                line-height: 200px;
-                font-size: 20px;
+                line-height: 180px;
+                font-size: 80px;
+                color: white;
                 font-weight: bold;
                 position: relative;
                 z-index: 10;
+                font-family: 'Cute', sans-serif;
+                text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.5), /* Top-left shadow */
+                -2px -2px 4px rgba(0, 0, 0, 0.5), /* Bottom-right shadow */
+                2px -2px 4px rgba(0, 0, 0, 0.5), /* Top-right shadow */
+                -2px 2px 4px rgba(0, 0, 0, 0.5); /* Bottom-left shadow */
+            }
+            .center-subtitle {
+                text-align: center;
+                padding-left: 20%;
+                padding-right: 20%;
+                line-height: 90px;
+                font-size: 40px;
+                color: white;
+                font-weight: bold;
+                position: relative;
+                z-index: 10;
+                font-family: 'Cute', sans-serif;
+                text-shadow: 
+                2px 2px 4px rgba(0, 0, 0, 0.5), /* Top-left shadow */
+                -2px -2px 4px rgba(0, 0, 0, 0.5), /* Bottom-right shadow */
+                2px -2px 4px rgba(0, 0, 0, 0.5), /* Top-right shadow */
+                -2px 2px 4px rgba(0, 0, 0, 0.5); /* Bottom-left shadow */
             }
         </style>
     </head>
     <body>
         <div class="center-content">
-
+            Mi Fresita
+        </div>
+        <div class="center-subtitle">
+            Eres lo mas bonito que me ha pasado, gracias por llegar a mi vida, soy muy afortunado de tenerte a mi lado, me gustaria que asi continuemos el resto de nuestras vidas
+        </div>
+        <div class="center-content">
+            Serias mi San Valentin?
         </div>
     </body>
     <script>
@@ -89,7 +144,7 @@
                 img.classList.add("floating-image");
 
                 // Random size between 50px and 150px
-                const size = Math.random() * 100 + 50;
+                const size = Math.random() * 50 + 100;
                 img.style.width = `${size}px`;
                 img.style.height = `${size}px`;
 
@@ -103,8 +158,45 @@
                 document.body.appendChild(img);
             }
         }
-        let paths = ['https://static.vecteezy.com/system/resources/previews/010/793/930/non_2x/pink-gerbera-flower-isolated-with-clipping-path-free-png.png', 'https://static.vecteezy.com/system/resources/thumbnails/054/889/116/small/single-blue-hydrangea-bloom-on-transparent-background-png.png', 'https://static.vecteezy.com/system/resources/previews/014/635/146/non_2x/dahlia-flower-transparent-free-png.png']
+        function createPulsatingImage(imagePaths, event) {
 
-        window.onload = createDistributedImages(paths)
+            // Get the mouse position on the screen
+            const xPos = event.clientX;
+            const yPos = event.clientY;
+
+            // Create the image element
+            const img = document.createElement("img");
+            img.src = imagePaths[Math.floor(Math.random() * imagePaths.length)]; // Random image
+            img.classList.add("pulsating-image");
+
+            // Set the image size
+            const imgSize = Math.random() * 50 + 50; // Random size between 50px and 100px
+            img.style.width = `${imgSize}px`;
+            img.style.height = "auto";
+
+            // Position the image where the click happened
+            img.style.left = `${xPos - imgSize / 2}px`; // Center image on the click
+            img.style.top = `${yPos - imgSize / 2}px`;
+
+            // Append the image to the container
+            document.body.appendChild(img);
+
+            // Remove the image after the pulsating animation (after 2-3 seconds)
+            setTimeout(() => {
+                img.remove();
+            }, 2500); // 2.5 seconds to allow the animation to finish
+        }
+
+        let flowerPaths = [
+            'https://static.vecteezy.com/system/resources/previews/010/793/930/non_2x/pink-gerbera-flower-isolated-with-clipping-path-free-png.png', 
+            'https://flowerexplosion.com/cdn/shop/files/pink-hydrangea-select.png?v=1734684637', 
+            'https://static.vecteezy.com/system/resources/previews/014/635/146/non_2x/dahlia-flower-transparent-free-png.png'
+        ]
+
+        let heartPaths = [
+            'https://i.pinimg.com/originals/92/2a/83/922a83c04f8508b8aba841a0449d2b93.png', 
+        ]   
+        window.onload = createDistributedImages(flowerPaths)
+        document.body.addEventListener('click', e=>createPulsatingImage(heartPaths, e))
     </script>
 </html>
